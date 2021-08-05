@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina5_5" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Lato-Bold.ttf">
+            <string>Lato-Bold</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Binary" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Binary Converter" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="dBu-rU-5a6">
+                                <rect key="frame" x="62" y="30" width="290" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="0L1-KF-uxE"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="290" id="3rB-X4-GzH"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="36"/>
+                                <color key="textColor" red="0.0" green="0.43137254901960786" blue="0.92549019607843142" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="P5e-pp-Pos">
+                                <rect key="frame" x="245" y="250" width="149" height="248.33333333333337"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="P5e-pp-Pos" secondAttribute="height" multiplier="3:5" id="VrZ-bF-umb"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Lud-MM-EXa">
+                                <rect key="frame" x="20" y="250" width="149" height="248.33333333333337"/>
+                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="15"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u85-5m-p5z">
+                                <rect key="frame" x="279" y="518.33333333333337" width="80" height="40"/>
+                                <color key="backgroundColor" red="0.0" green="0.43137254901960786" blue="0.92549019607843142" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="1vE-o6-kZk"/>
+                                    <constraint firstAttribute="height" constant="40" id="lbb-nv-8Ol"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="17"/>
+                                <state key="normal" title="Copy">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="copyButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7Jd-oo-mkQ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IkI-ny-ntv">
+                                <rect key="frame" x="366.33333333333331" y="10.000000000000002" width="27.666666666666686" height="26.666666666666671"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                <state key="normal" image="gear" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large" weight="bold"/>
+                                </state>
+                                <connections>
+                                    <action selector="settingsButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="smG-2T-Lhc"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bVD-rk-bd1">
+                                <rect key="frame" x="40" y="190" width="130" height="30"/>
+                                <color key="backgroundColor" red="0.0" green="0.43137254901960786" blue="0.92549019607843142" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="130" id="KrY-aJ-wKI"/>
+                                    <constraint firstAttribute="height" constant="30" id="UWI-ji-E9u"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="17"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Sk-Uw-dA1">
+                                <rect key="frame" x="254" y="190" width="130" height="30"/>
+                                <color key="backgroundColor" red="0.0" green="0.43137254899999999" blue="0.92549019610000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="HVw-fA-yfa"/>
+                                    <constraint firstAttribute="width" constant="130" id="Rw0-mh-5IM"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="17"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YMF-Ip-Sxk">
+                                <rect key="frame" x="55" y="518.33333333333337" width="80" height="40"/>
+                                <color key="backgroundColor" red="0.0" green="0.43137254899999999" blue="0.92549019610000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="1yc-gR-IEo"/>
+                                    <constraint firstAttribute="height" constant="40" id="3pr-ee-0dc"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="17"/>
+                                <state key="normal" title="Paste">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="pasteButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="q1p-tQ-BqS"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" name="Background"/>
+                        <constraints>
+                            <constraint firstItem="bVD-rk-bd1" firstAttribute="top" secondItem="dBu-rU-5a6" secondAttribute="bottom" constant="100" id="3Ie-O4-EV7"/>
+                            <constraint firstItem="P5e-pp-Pos" firstAttribute="width" secondItem="Lud-MM-EXa" secondAttribute="width" id="BZ7-Aa-sAm"/>
+                            <constraint firstItem="P5e-pp-Pos" firstAttribute="height" secondItem="Lud-MM-EXa" secondAttribute="height" id="DIu-hn-6xK"/>
+                            <constraint firstItem="u85-5m-p5z" firstAttribute="top" secondItem="P5e-pp-Pos" secondAttribute="bottom" constant="20" id="DVg-Tp-r8k"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="u85-5m-p5z" secondAttribute="trailing" constant="55" id="EoT-Kt-R66"/>
+                            <constraint firstItem="Lud-MM-EXa" firstAttribute="top" secondItem="bVD-rk-bd1" secondAttribute="bottom" constant="30" id="Gc2-Me-hBP"/>
+                            <constraint firstItem="bVD-rk-bd1" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="H5u-Be-YDI"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="P5e-pp-Pos" secondAttribute="trailing" constant="20" id="OM3-N5-LmX"/>
+                            <constraint firstItem="0Sk-Uw-dA1" firstAttribute="top" secondItem="dBu-rU-5a6" secondAttribute="bottom" constant="100" id="SVn-q7-TiX"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="0Sk-Uw-dA1" secondAttribute="trailing" constant="30" id="SXc-Rw-hWb"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="u85-5m-p5z" secondAttribute="bottom" constant="50" id="SpZ-Js-kD6"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="IkI-ny-ntv" secondAttribute="trailing" constant="20" id="XDh-xR-UlX"/>
+                            <constraint firstItem="dBu-rU-5a6" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="YRI-Rm-I2X"/>
+                            <constraint firstItem="IkI-ny-ntv" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="e0N-w3-KaE"/>
+                            <constraint firstItem="P5e-pp-Pos" firstAttribute="top" secondItem="0Sk-Uw-dA1" secondAttribute="bottom" constant="30" id="eCS-ht-1g9"/>
+                            <constraint firstItem="YMF-Ip-Sxk" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="55" id="gYL-jT-H4h"/>
+                            <constraint firstItem="dBu-rU-5a6" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="gd6-dy-8r9"/>
+                            <constraint firstItem="P5e-pp-Pos" firstAttribute="leading" secondItem="Lud-MM-EXa" secondAttribute="trailing" constant="76" id="q3k-KR-7es"/>
+                            <constraint firstItem="YMF-Ip-Sxk" firstAttribute="top" secondItem="Lud-MM-EXa" secondAttribute="bottom" constant="20" id="uvs-BC-6IF"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="YMF-Ip-Sxk" secondAttribute="bottom" constant="50" id="vE3-SH-Bbv"/>
+                            <constraint firstItem="Lud-MM-EXa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="vXM-Em-OT7"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="copyButton" destination="u85-5m-p5z" id="BEH-Vn-nKD"/>
+                        <outlet property="copyButtonTrailing" destination="EoT-Kt-R66" id="GBN-qc-g3i"/>
+                        <outlet property="firstInput" destination="bVD-rk-bd1" id="cxz-XA-rtg"/>
+                        <outlet property="firstInputLeading" destination="H5u-Be-YDI" id="UJ0-il-oJ5"/>
+                        <outlet property="label" destination="dBu-rU-5a6" id="W1N-fe-mXX"/>
+                        <outlet property="pasteButton" destination="YMF-Ip-Sxk" id="Wkt-T8-huE"/>
+                        <outlet property="pasteButtonLeading" destination="gYL-jT-H4h" id="Zyx-Uu-GQc"/>
+                        <outlet property="resultTextView" destination="P5e-pp-Pos" id="Nm5-Dq-wST"/>
+                        <outlet property="resultTextViewTrailing" destination="OM3-N5-LmX" id="JDn-JY-h0K"/>
+                        <outlet property="resultTextWidth" destination="BZ7-Aa-sAm" id="9T6-ba-IgZ"/>
+                        <outlet property="secondInput" destination="0Sk-Uw-dA1" id="QYc-NI-Xqh"/>
+                        <outlet property="secondInputTrailing" destination="SXc-Rw-hWb" id="dlF-VG-4Ho"/>
+                        <outlet property="settingsButton" destination="IkI-ny-ntv" id="3iL-dB-d81"/>
+                        <outlet property="textInput" destination="Lud-MM-EXa" id="fLs-yK-Grd"/>
+                        <outlet property="textInputLeading" destination="vXM-Em-OT7" id="QVR-0j-J0K"/>
+                        <outlet property="textInputWidth" destination="BZ7-Aa-sAm" id="VfO-oj-JU1"/>
+                        <segue destination="6tS-ec-ncS" kind="show" identifier="settings" id="mSU-MF-HGd"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="12417" y="6"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="Rua-2F-giS">
+            <objects>
+                <tableViewController id="4Lu-L2-eLD" customClass="SettingsViewController" customModule="Binary" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="Of0-ia-MP7">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="Ff1-Yp-TFa">
+                                <rect key="frame" x="20" y="49" width="374" height="43.666667938232422"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Ff1-Yp-TFa" id="TkI-L5-j5q">
+                                    <rect key="frame" x="0.0" y="0.0" width="374" height="43.666667938232422"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="4Lu-L2-eLD" id="DKW-nU-CDD"/>
+                            <outlet property="delegate" destination="4Lu-L2-eLD" id="8a4-HV-hWu"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Settings" id="e7M-FF-TTM"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4gk-C5-LtQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="14186" y="-2"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="U84-qt-ozY">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6tS-ec-ncS" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="rXD-pC-3jE"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="oKo-Z1-EE5">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="4Lu-L2-eLD" kind="relationship" relationship="rootViewController" id="kb4-sg-aDX"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uXh-ON-8BF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="13327.53623188406" y="-2.4456521739130435"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="gear" catalog="system" width="128" height="119"/>
+        <namedColor name="Background">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
