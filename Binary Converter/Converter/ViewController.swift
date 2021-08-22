@@ -28,9 +28,22 @@ class ViewController: UIViewController, UITextViewDelegate {
                 textInput.inputView = HexadecimalKeyboard(target: textInput)
             case "Integer":
                 textInput.inputView = NumberKeyboard(target: textInput)
-            default:
+            case "Text":
                 textInput.inputView = nil
                 textInput.keyboardType = .default
+                textInput.autocorrectionType = .yes
+            default:
+                if type.contains("Base-") {
+                    if let base = Int(type.removedSubrange("Base-")) {
+                        if base <= 36 && base >= 2 {
+                            textInput.inputView = CustomBaseKeyboard(target: textInput, base: base)
+                        }
+                    }
+                }
+//                textInput.inputView = nil
+//                textInput.keyboardType = .alphabet
+//                textInput.autocorrectionType = .no
+//                textInput.autocapitalizationType = .none
             }
             if textInput.isFirstResponder {
                 textInput.resignFirstResponder()

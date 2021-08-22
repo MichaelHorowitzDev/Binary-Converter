@@ -7,8 +7,6 @@ target 'Binary Converter' do
 
   # Pods for TextToBinaryFree
 pod 'IQKeyboardManagerSwift'
-pod 'BigInt'
-pod 'Siren'
 pod 'PopupDialog'
 pod 'Armchair'
 pod 'SCLAlertView'

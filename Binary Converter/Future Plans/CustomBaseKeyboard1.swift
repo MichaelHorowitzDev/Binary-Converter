@@ -8,47 +8,58 @@
 
 import UIKit
 
-private let darkMode = false
+fileprivate let buttonBackgroundColor = UIColor.tertiarySystemBackground
+fileprivate let buttonBorderColor = UIColor.defaultBackground.cgColor
+fileprivate let buttonLabelColor = UIColor.label
+
 class CustomBaseKeyboard: UIView {
     weak var target: UIKeyInput?
-    var customBase: Int!
+    var customBase: Int
     var deleteTimer = Timer()
-    
-    var numericButtons: [DigitButton] = (0...9).map {
-        let button = DigitButton(type: .system)
-        button.digit = $0
-        button.setTitle("\($0)", for: .normal)
-        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title1)
-        darkMode ? button.setTitleColor(.white, for: .normal) : button.setTitleColor(.black, for: .normal)
-        button.layer.borderWidth = 0.3
-        button.layer.borderColor = darkMode ? UIColor.lightGray.cgColor : UIColor.darkGray.cgColor
-        button.layer.backgroundColor = darkMode ? UIColor(red: 28.0/255, green: 28.0/255, blue: 30.0/255, alpha: 1).cgColor :  UIColor.white.cgColor
-        button.accessibilityTraits = [.keyboardKey]
-        button.addTarget(self, action: #selector(didTapDigitButton(_:)), for: .touchUpInside)
-        return button
+    var numericButtons = [DigitButton]()
+    var letterButtons = [LetterButton]()
+    func setupNumericButtons(number numericButtonNumber: Int) {
+        numericButtons = (0...numericButtonNumber).map { number in
+            let button = DigitButton(type: .system)
+            button.digit = number
+            button.setTitle("\(number)", for: .normal)
+            button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title1)
+            button.setTitleColor(buttonLabelColor, for: .normal)
+            button.layer.borderWidth = 0.3
+            button.layer.borderColor = buttonBorderColor
+            button.backgroundColor = buttonBackgroundColor
+            button.accessibilityTraits = [.keyboardKey]
+            button.addTarget(self, action: #selector(didTapDigitButton(_:)), for: .touchUpInside)
+            return button
+        }
     }
-    var letterButtons: [LetterButton] = (Unicode.Scalar("a").value...Unicode.Scalar("z").value).map {
-        let button = LetterButton(type: .system)
-        button.letter = String(Unicode.Scalar($0)!)
-        button.setTitle(String(Unicode.Scalar($0)!), for: .normal)
-        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title1)
-        darkMode ? button.setTitleColor(.white, for: .normal) : button.setTitleColor(.black, for: .normal)
-        button.layer.borderWidth = 0.3
-        button.layer.borderColor = darkMode ? UIColor.lightGray.cgColor : UIColor.darkGray.cgColor
-        button.layer.backgroundColor = darkMode ? UIColor(red: 28.0/255, green: 28.0/255, blue: 30.0/255, alpha: 1).cgColor :  UIColor.white.cgColor
-        button.accessibilityTraits = [.keyboardKey]
-        button.addTarget(self, action: #selector(didTapLetterButton(_:)), for: .touchUpInside)
-        return button
+    func setupLetterButtons(number letterButtonNumber: Int) {
+        let startingValue = Int(Unicode.Scalar("a").value)
+        letterButtons = (0...letterButtonNumber).map { number in
+            let button = LetterButton(type: .system)
+            let letter = String(Unicode.Scalar(number+startingValue)!)
+            button.letter = letter
+            button.setTitle(letter, for: .normal)
+            button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title1)
+            button.setTitleColor(buttonLabelColor, for: .normal)
+            button.layer.borderWidth = 0.3
+            button.layer.borderColor = buttonBorderColor
+            button.backgroundColor = buttonBackgroundColor
+            button.accessibilityTraits = [.keyboardKey]
+            button.addTarget(self, action: #selector(didTapLetterButton(_:)), for: .touchUpInside)
+            return button
+        }
     }
     
     var deleteButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("⌫", for: .normal)
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title1)
-        darkMode ? button.setTitleColor(.white, for: .normal) : button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title1)
+        button.setTitleColor(buttonLabelColor, for: .normal)
         button.layer.borderWidth = 0.3
-        button.layer.borderColor = darkMode ? UIColor.lightGray.cgColor : UIColor.darkGray.cgColor
-        button.layer.backgroundColor = darkMode ? UIColor(red: 28.0/255, green: 28.0/255, blue: 30.0/255, alpha: 1).cgColor :  UIColor.white.cgColor
+        button.layer.borderColor = buttonBorderColor
+        button.backgroundColor = buttonBackgroundColor
         button.accessibilityTraits = [.keyboardKey]
         button.accessibilityLabel = "Delete"
         button.addTarget(self, action: #selector(didTapDeleteButton(_:)), for: .touchDown)
@@ -58,10 +69,10 @@ class CustomBaseKeyboard: UIView {
         let button = UIButton(type: .system)
         button.setTitle("space", for: .normal)
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title1)
-        darkMode ? button.setTitleColor(.white, for: .normal) : button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(buttonLabelColor, for: .normal)
         button.layer.borderWidth = 0.3
-        button.layer.borderColor = darkMode ? UIColor.lightGray.cgColor : UIColor.darkGray.cgColor
-        button.layer.backgroundColor = darkMode ? UIColor(red: 28.0/255, green: 28.0/255, blue: 30.0/255, alpha: 1).cgColor :  UIColor.white.cgColor
+        button.layer.borderColor = buttonBorderColor
+        button.backgroundColor = buttonBackgroundColor
         button.accessibilityTraits = [.keyboardKey]
         button.accessibilityLabel = "Space"
         button.addTarget(self, action: #selector(didTapSpaceButton(_:)), for: .touchUpInside)
@@ -69,8 +80,19 @@ class CustomBaseKeyboard: UIView {
     }()
     init(target: UIKeyInput, base: Int) {
         self.target = target
-        self.customBase = base
+        if base > 36 {
+            self.customBase = 36
+        } else if base < 3 {
+            self.customBase = 3
+        } else {
+            customBase = base
+        }
+        let numericButtonNumber = customBase < 10 ? customBase-1 : 9
+        let letterButtonsNumber = customBase < 10 ? 0 : customBase-numericButtonNumber-1
         super.init(frame: .zero)
+        setupNumericButtons(number: numericButtonNumber)
+        setupLetterButtons(number: letterButtonsNumber)
+        
         configure(base: customBase)
     }
     
@@ -138,14 +160,14 @@ private extension CustomBaseKeyboard {
         for _ in 0...0 {
             let subStackView = createStackView(axis: .horizontal)
             stackView.addArrangedSubview(subStackView)
-            for column in 0 ... 9 {
+            for column in 0...numericButtons.count-1 {
                 subStackView.addArrangedSubview(numericButtons[column])
             }
         }
         for _ in 0...0{
             let subStackView = createStackView(axis: .horizontal)
             stackView.addArrangedSubview(subStackView)
-            for column in 0 ... 5{
+            for column in 0...letterButtons.count-1 {
                 subStackView.addArrangedSubview(letterButtons[column])
             }
             subStackView.addArrangedSubview(deleteButton)
