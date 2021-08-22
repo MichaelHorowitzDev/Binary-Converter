@@ -15,6 +15,7 @@ enum CustomBaseAlert {
 func showCustomBaseAlert(_ alertType: CustomBaseAlert = .normal, closure: @escaping (_ base: Int?) -> Void) {
     let alert = SCLAlertView()
     let txt = alert.addTextField()
+    txt.keyboardType = .numberPad
     var subtitle = "Enter a number greater 1 and less than 36"
     if alertType == .incorrect {
         subtitle = "Invalid Base.\nEnter a number greater 1 and less than 36"
