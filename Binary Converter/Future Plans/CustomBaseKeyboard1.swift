@@ -9,7 +9,7 @@
 import UIKit
 
 fileprivate let buttonBackgroundColor = UIColor.tertiarySystemBackground
-fileprivate let buttonBorderColor = UIColor.defaultBackground.cgColor
+fileprivate let buttonBorderColor = UIColor.keyboardBorderColor
 fileprivate let buttonLabelColor = UIColor.label
 
 class CustomBaseKeyboard: UIView {
@@ -18,6 +18,14 @@ class CustomBaseKeyboard: UIView {
     var deleteTimer = Timer()
     var numericButtons = [DigitButton]()
     var letterButtons = [LetterButton]()
+    
+    var allButtons: [UIButton] {
+        var buttons = [UIButton]()
+        buttons.append(contentsOf: numericButtons)
+        buttons.append(contentsOf: letterButtons)
+        buttons.append(deleteButton)
+        return buttons
+    }
     func setupNumericButtons(number numericButtonNumber: Int) {
         numericButtons = (0...numericButtonNumber).map { number in
             let button = DigitButton(type: .system)
@@ -26,7 +34,7 @@ class CustomBaseKeyboard: UIView {
             button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title1)
             button.setTitleColor(buttonLabelColor, for: .normal)
             button.layer.borderWidth = 0.3
-            button.layer.borderColor = buttonBorderColor
+            button.layer.borderColor = buttonBorderColor.cgColor
             button.backgroundColor = buttonBackgroundColor
             button.accessibilityTraits = [.keyboardKey]
             button.addTarget(self, action: #selector(didTapDigitButton(_:)), for: .touchUpInside)
@@ -43,7 +51,7 @@ class CustomBaseKeyboard: UIView {
             button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title1)
             button.setTitleColor(buttonLabelColor, for: .normal)
             button.layer.borderWidth = 0.3
-            button.layer.borderColor = buttonBorderColor
+            button.layer.borderColor = buttonBorderColor.cgColor
             button.backgroundColor = buttonBackgroundColor
             button.accessibilityTraits = [.keyboardKey]
             button.addTarget(self, action: #selector(didTapLetterButton(_:)), for: .touchUpInside)
@@ -51,56 +59,64 @@ class CustomBaseKeyboard: UIView {
         }
     }
     
-    var deleteButton: UIButton = {
+    var deleteButton: UIButton {
         let button = UIButton(type: .system)
         button.setTitle("⌫", for: .normal)
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title1)
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title1)
         button.setTitleColor(buttonLabelColor, for: .normal)
         button.layer.borderWidth = 0.3
-        button.layer.borderColor = buttonBorderColor
+        button.layer.borderColor = buttonBorderColor.cgColor
         button.backgroundColor = buttonBackgroundColor
         button.accessibilityTraits = [.keyboardKey]
         button.accessibilityLabel = "Delete"
         button.addTarget(self, action: #selector(didTapDeleteButton(_:)), for: .touchDown)
         return button
-    }()
-    var spaceButton: UIButton = {
+    }
+    var spaceButton: UIButton {
         let button = UIButton(type: .system)
         button.setTitle("space", for: .normal)
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title1)
         button.setTitleColor(buttonLabelColor, for: .normal)
         button.layer.borderWidth = 0.3
-        button.layer.borderColor = buttonBorderColor
+        button.layer.borderColor = buttonBorderColor.cgColor
         button.backgroundColor = buttonBackgroundColor
         button.accessibilityTraits = [.keyboardKey]
         button.accessibilityLabel = "Space"
         button.addTarget(self, action: #selector(didTapSpaceButton(_:)), for: .touchUpInside)
         return button
-    }()
+    }
+    func drawView() {
+        self.numericButtons.removeAll()
+        self.letterButtons.removeAll()
+        self.subviews.forEach { view in
+            view.removeFromSuperview()
+        }
+        let numericButtonNumber = customBase < 10 ? customBase-1 : 9
+        let letterButtonsNumber = customBase < 10 ? 0 : customBase-numericButtonNumber-2
+        setupNumericButtons(number: numericButtonNumber)
+        if letterButtonsNumber > 0 {
+            setupLetterButtons(number: letterButtonsNumber)
+        }
+        configure(base: customBase)
+    }
     init(target: UIKeyInput, base: Int) {
         self.target = target
         if base > 36 {
             self.customBase = 36
-        } else if base < 3 {
-            self.customBase = 3
+        } else if base < 2 {
+            self.customBase = 2
         } else {
             customBase = base
         }
-        let numericButtonNumber = customBase < 10 ? customBase-1 : 9
-        let letterButtonsNumber = customBase < 10 ? 0 : customBase-numericButtonNumber-1
         super.init(frame: .zero)
-        setupNumericButtons(number: numericButtonNumber)
-        setupLetterButtons(number: letterButtonsNumber)
-        
-        configure(base: customBase)
+        drawView()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
 // MARK: - Actions
 
 extension CustomBaseKeyboard {
@@ -148,40 +164,36 @@ private extension CustomBaseKeyboard {
         stackView.frame = bounds
         stackView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addSubview(stackView)
-        
-//        for row in 0 ..< 3 {
-//            let subStackView = createStackView(axis: .horizontal)
-//            stackView.addArrangedSubview(subStackView)
-//
-//            for column in 0 ..< 3 {
-//                subStackView.addArrangedSubview(numericButtons[row * 3 + column + 1])
-//            }
-//        }
-        for _ in 0...0 {
+        let numberOfRows: Int = {
+            var number = Int(ceil(Double(self.allButtons.count)/10))
+            if number > 3 {
+                number = 3
+            }
+            return number
+        }()
+        for row in 1...numberOfRows {
             let subStackView = createStackView(axis: .horizontal)
             stackView.addArrangedSubview(subStackView)
-            for column in 0...numericButtons.count-1 {
-                subStackView.addArrangedSubview(numericButtons[column])
+            if row != numberOfRows {
+                let lowerBound = (allButtons.count/numberOfRows*row)-allButtons.count/numberOfRows
+                let upperBound = (allButtons.count/numberOfRows*row)
+                for button in (lowerBound..<upperBound) {
+                    subStackView.addArrangedSubview(allButtons[button])
+                }
+            } else {
+                var lowerBound = (allButtons.count/numberOfRows*(row-1).setMinimumNumber(1))
+                if numberOfRows == 1 {
+                    lowerBound = 0
+                }
+                let upperBound = allButtons.count
+                for button in (lowerBound..<upperBound) {
+                    subStackView.addArrangedSubview(allButtons[button])
+                }
             }
-        }
-        for _ in 0...0{
-            let subStackView = createStackView(axis: .horizontal)
-            stackView.addArrangedSubview(subStackView)
-            for column in 0...letterButtons.count-1 {
-                subStackView.addArrangedSubview(letterButtons[column])
-            }
-            subStackView.addArrangedSubview(deleteButton)
         }
         let subStackView = createStackView(axis: .horizontal)
         stackView.addArrangedSubview(subStackView)
-        
-        let blank = UIView()
-        blank.layer.borderWidth = 0.5
-        blank.layer.borderColor = UIColor.darkGray.cgColor
-        
         subStackView.addArrangedSubview(spaceButton)
-        //subStackView.addArrangedSubview(numericButtons[3])
-        //subStackView.addArrangedSubview(deleteButton)
     }
     
     func createStackView(axis: NSLayoutConstraint.Axis) -> UIStackView {
@@ -190,5 +202,12 @@ private extension CustomBaseKeyboard {
         stackView.alignment = .fill
         stackView.distribution = .fillEqually
         return stackView
+    }
+}
+// MARK: - Redraw view on trait collection
+extension CustomBaseKeyboard {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        print("did change")
+        drawView()
     }
 }

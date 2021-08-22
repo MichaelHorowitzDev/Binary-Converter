@@ -58,6 +58,9 @@ extension UIColor {
     class var defaultBackground: UIColor {
         return UIColor(named: "Background")!
     }
+    class var keyboardBorderColor: UIColor {
+        return UIColor(named: "Keyboard Border")!
+    }
     // create color from data
     class func color(withData data: Data) -> UIColor? {
         do {
