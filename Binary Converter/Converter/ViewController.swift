@@ -40,9 +40,7 @@ class ViewController: UIViewController, UITextViewDelegate {
                 }
             }
         }
-        if textInput.textColor != .lightGray {
-            performCalculation()
-        }
+        performCalculation()
     }
     func setKeyboardType(type: String) {
         switch type {
@@ -297,15 +295,6 @@ class ViewController: UIViewController, UITextViewDelegate {
         let pv = PopupDialogDefaultView.appearance()
         pv.backgroundColor = .defaultBackground
         pv.titleColor = .label
-//        let pv = PopupDialogDefaultView.appearance()
-//        if darkMode {
-//            pv.titleColor   = .white
-//            pv.backgroundColor = UIColor(red: 28.0/255, green: 28.0/255, blue: 30.0/255, alpha: 1)
-//        }
-//        else {
-//            pv.titleColor = .black
-//            pv.backgroundColor = .white
-//        }
         self.present(popup, animated: true, completion: nil)
     }
     @IBAction func pasteButtonPressed(_ sender: UIButton) {
