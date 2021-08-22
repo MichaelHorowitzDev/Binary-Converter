@@ -21,26 +21,7 @@ class ViewController: UIViewController, UITextViewDelegate {
             if textInput.textColor == .lightGray {
                 textInput.text = "Enter \(type)..."
             }
-            switch type {
-            case "Binary":
-                textInput.inputView = BinaryKeyboard(target: textInput)
-            case "Hexadecimal":
-                textInput.inputView = HexadecimalKeyboard(target: textInput)
-            case "Integer":
-                textInput.inputView = NumberKeyboard(target: textInput)
-            case "Text":
-                textInput.inputView = nil
-                textInput.keyboardType = .default
-                textInput.autocorrectionType = .yes
-            default:
-                if type.contains("Base-") {
-                    if let base = Int(type.removedSubrange("Base-")) {
-                        if base <= 36 && base >= 2 {
-                            textInput.inputView = CustomBaseKeyboard(target: textInput, base: base)
-                        }
-                    }
-                }
-            }
+            setKeyboardType(type: type)
             if textInput.isFirstResponder {
                 textInput.resignFirstResponder()
                 textInput.becomeFirstResponder()
@@ -52,17 +33,7 @@ class ViewController: UIViewController, UITextViewDelegate {
                 if textInput.textColor == .lightGray {
                     textInput.text = "Enter \(previousType)..."
                 }
-                switch previousType {
-                case "Binary":
-                    textInput.inputView = BinaryKeyboard(target: textInput)
-                case "Hexadecimal":
-                    textInput.inputView = HexadecimalKeyboard(target: textInput)
-                case "Integer":
-                    textInput.inputView = NumberKeyboard(target: textInput)
-                default:
-                    textInput.inputView = nil
-                    textInput.keyboardType = .default
-                }
+                setKeyboardType(type: previousType)
                 if textInput.isFirstResponder {
                     textInput.resignFirstResponder()
                     textInput.becomeFirstResponder()
@@ -71,6 +42,28 @@ class ViewController: UIViewController, UITextViewDelegate {
         }
         if textInput.textColor != .lightGray {
             performCalculation()
+        }
+    }
+    func setKeyboardType(type: String) {
+        switch type {
+        case "Binary":
+            textInput.inputView = BinaryKeyboard(target: textInput)
+        case "Hexadecimal":
+            textInput.inputView = HexadecimalKeyboard(target: textInput)
+        case "Integer":
+            textInput.inputView = NumberKeyboard(target: textInput)
+        case "Text":
+            textInput.inputView = nil
+            textInput.keyboardType = .default
+            textInput.autocorrectionType = .yes
+        default:
+            if type.contains("Base-") {
+                if let base = Int(type.removedSubrange("Base-")) {
+                    if base <= 36 && base >= 2 {
+                        textInput.inputView = CustomBaseKeyboard(target: textInput, base: base)
+                    }
+                }
+            }
         }
     }
     
@@ -325,7 +318,19 @@ class ViewController: UIViewController, UITextViewDelegate {
         }
     }
     @IBAction func swapButtonPressed(_ sender: UIButton) {
-        print("swap")
+        let firstInputText = firstInput.currentTitle!
+        firstInput.setTitle(secondInput.currentTitle!, for: .normal)
+        secondInput.setTitle(firstInputText, for: .normal)
+        if textInput.textColor == .lightGray {
+            textInput.text = "Enter \(firstInput.currentTitle!)..."
+        }
+        setKeyboardType(type: firstInput.currentTitle!)
+        pickerMenu()
+        performCalculation()
+        if textInput.isFirstResponder {
+            textInput.resignFirstResponder()
+            textInput.becomeFirstResponder()
+        }
     }
     
     //performCalculation
