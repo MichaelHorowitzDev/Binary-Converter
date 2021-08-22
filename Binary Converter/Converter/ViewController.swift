@@ -122,9 +122,17 @@ class ViewController: UIViewController, UITextViewDelegate {
         createCustomBaseObserver(#selector(setCustomBase))
         setConstraints(size: view.frame.size)
         textInput.delegate = self
-        firstInput.setTitle("Text", for: .normal)
-        secondInput.setTitle("Binary", for: .normal)
-        textInput.text = "Enter Text..."
+        if menuConfig != nil && menuConfig?.count == 2 {
+            let menuConfig = menuConfig!
+            firstInput.setTitle(menuConfig[0], for: .normal)
+            secondInput.setTitle(menuConfig[1], for: .normal)
+            textInput.text = "Enter \(menuConfig[0])..."
+            setKeyboardType(type: menuConfig[0])
+        } else {
+            firstInput.setTitle("Text", for: .normal)
+            secondInput.setTitle("Binary", for: .normal)
+            textInput.text = "Enter Text..."
+        }
         textInput.textColor = UIColor.lightGray
         firstInput.showsMenuAsPrimaryAction = true
         secondInput.showsMenuAsPrimaryAction = true
@@ -245,6 +253,7 @@ class ViewController: UIViewController, UITextViewDelegate {
             })
         )
         secondInput.menu = menu
+        saveMenuConfig()
     }
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textInput.textColor == UIColor.lightGray {
@@ -328,5 +337,14 @@ class ViewController: UIViewController, UITextViewDelegate {
             return
         }
         resultTextView.text = converter(input: textInput.text, inputType: firstInput.currentTitle!, resultType: secondInput.currentTitle!)
+    }
+}
+
+extension ViewController {
+    func saveMenuConfig() {
+        UserDefaults.standard.set([firstInput.currentTitle!, secondInput.currentTitle!], forKey: "menuConfig")
+    }
+    var menuConfig: [String]? {
+        UserDefaults.standard.stringArray(forKey: "menuConfig") ?? nil
     }
 }
