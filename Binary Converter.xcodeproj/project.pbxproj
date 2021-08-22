@@ -479,6 +479,7 @@
 				3F8FCA95240C450A008C28AE /* BinaryKeyboard.swift */,
 				3F8FCA91240C4509008C28AE /* HexadecimalKeyboard.swift */,
 				3F8FCA93240C4509008C28AE /* NumberKeyboard.swift */,
+				3FF6094A24F9ACE7000967BC /* CustomBaseKeyboard.swift */,
 			);
 			path = "Custom Keyboards";
 			sourceTree = "<group>";
@@ -487,7 +488,6 @@
 			isa = PBXGroup;
 			children = (
 				3F70576E25F6E13C004DAF03 /* Onboard.swift */,
-				3FF6094A24F9ACE7000967BC /* CustomBaseKeyboard.swift */,
 			);
 			path = "Future Plans";
 			sourceTree = "<group>";

@@ -9,7 +9,7 @@
 import UIKit
 
 fileprivate let buttonBackgroundColor = UIColor.tertiarySystemBackground
-fileprivate let buttonBorderColor = UIColor.defaultBackground.cgColor
+fileprivate let buttonBorderColor = UIColor.keyboardBorderColor
 fileprivate let buttonLabelColor = UIColor.label
 
 class numberButton: UIButton {
@@ -19,51 +19,59 @@ class numberButton: UIButton {
 class NumberKeyboard: UIView {
     weak var target: UIKeyInput?
     var deleteTimer = Timer()
-    var numericButtons: [numberButton] = (0...9).map {
-        let button = numberButton(type: .system)
-        button.digit = $0
-        button.setTitle("\($0)", for: .normal)
-        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title1)
-        button.setTitleColor(buttonLabelColor, for: .normal)
-        button.layer.borderWidth = 0.3
-        button.layer.borderColor = buttonBorderColor
-        button.backgroundColor = buttonBackgroundColor
-        button.accessibilityTraits = [.keyboardKey]
-        button.addTarget(self, action: #selector(didTapnumberButton(_:)), for: .touchUpInside)
-        return button
+    var numericButtons: [numberButton] {
+        (0...9).map {
+            let button = numberButton(type: .system)
+            button.digit = $0
+            button.setTitle("\($0)", for: .normal)
+            button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title1)
+            button.setTitleColor(buttonLabelColor, for: .normal)
+            button.layer.borderWidth = 0.3
+            button.layer.borderColor = buttonBorderColor.cgColor
+            button.backgroundColor = buttonBackgroundColor
+            button.accessibilityTraits = [.keyboardKey]
+            button.addTarget(self, action: #selector(didTapnumberButton(_:)), for: .touchUpInside)
+            return button
+        }
     }
     
-    var deleteButton: UIButton = {
+    var deleteButton: UIButton {
         let button = UIButton(type: .system)
         button.setTitle("⌫", for: .normal)
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title1)
         button.setTitleColor(buttonLabelColor, for: .normal)
         button.layer.borderWidth = 0.3
-        button.layer.borderColor = buttonBorderColor
+        button.layer.borderColor = buttonBorderColor.cgColor
         button.backgroundColor = buttonBackgroundColor
         button.accessibilityTraits = [.keyboardKey]
         button.accessibilityLabel = "Delete"
         button.addTarget(self, action: #selector(didTapDeleteButton(_:)), for: .touchDown)
         return button
-    }()
-    var spaceButton: UIButton = {
+    }
+    var spaceButton: UIButton {
         let button = UIButton(type: .system)
         button.setTitle("space", for: .normal)
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title1)
         button.setTitleColor(buttonLabelColor, for: .normal)
         button.layer.borderWidth = 0.3
-        button.layer.borderColor = buttonBorderColor
+        button.layer.borderColor = buttonBorderColor.cgColor
         button.backgroundColor = buttonBackgroundColor
         button.accessibilityTraits = [.keyboardKey]
         button.accessibilityLabel = "Space"
         button.addTarget(self, action: #selector(didTapSpaceButton(_:)), for: .touchUpInside)
         return button
-    }()
+    }
+    func drawView() {
+        self.subviews.forEach { subview in
+            subview.removeFromSuperview()
+        }
+        configure()
+    }
     
     init(target: UIKeyInput) {
         self.target = target
         super.init(frame: .zero)
-        configure()
+        drawView()
     }
     
     required init?(coder: NSCoder) {
@@ -140,5 +148,11 @@ private extension NumberKeyboard {
         stackView.alignment = .fill
         stackView.distribution = .fillEqually
         return stackView
+    }
+}
+
+extension NumberKeyboard {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        drawView()
     }
 }
