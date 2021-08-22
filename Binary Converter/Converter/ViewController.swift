@@ -193,7 +193,7 @@ class ViewController: UIViewController, UITextViewDelegate {
             if item == firstInput.currentTitle {
                 image = UIImage(systemName: "checkmark")
             } else {
-                if item == "Custom Base" && firstInput.currentTitle!.contains("Base") && pickerList.contains(item) == false {
+                if item == "Custom Base" && !pickerList.contains(firstInput.currentTitle!) {
                     image = UIImage(systemName: "checkmark")
                 }
             }
@@ -224,7 +224,7 @@ class ViewController: UIViewController, UITextViewDelegate {
             if item == secondInput.currentTitle {
                 image = UIImage(systemName: "checkmark")
             } else {
-                if item == "Custom Base" && secondInput.currentTitle!.contains("Base") && pickerList.contains(item) == false {
+                if item == "Custom Base" && !pickerList.contains(secondInput.currentTitle!) {
                     image = UIImage(systemName: "checkmark")
                 }
             }
