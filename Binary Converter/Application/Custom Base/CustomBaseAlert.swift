@@ -16,9 +16,9 @@ func showCustomBaseAlert(_ alertType: CustomBaseAlert = .normal, closure: @escap
     let alert = SCLAlertView()
     let txt = alert.addTextField()
     txt.keyboardType = .numberPad
-    var subtitle = "Enter a number greater 1 and less than 36"
+    var subtitle = "Enter a number greater than 1 and less than 37"
     if alertType == .incorrect {
-        subtitle = "Invalid Base.\nEnter a number greater 1 and less than 36"
+        subtitle = "Invalid Base.\nEnter a number greater than 1 and less than 37"
     }
     alert.showTitle(
         "Custom Base",
