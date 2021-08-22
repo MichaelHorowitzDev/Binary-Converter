@@ -40,10 +40,6 @@ class ViewController: UIViewController, UITextViewDelegate {
                         }
                     }
                 }
-//                textInput.inputView = nil
-//                textInput.keyboardType = .alphabet
-//                textInput.autocorrectionType = .no
-//                textInput.autocapitalizationType = .none
             }
             if textInput.isFirstResponder {
                 textInput.resignFirstResponder()
