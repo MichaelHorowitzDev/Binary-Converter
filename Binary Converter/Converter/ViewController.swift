@@ -191,68 +191,40 @@ class ViewController: UIViewController, UITextViewDelegate {
         }
     }
     func pickerMenu() {
-        var menu = UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children:
-            pickerList.map({ item in
-            var image: UIImage?
-            if item == firstInput.currentTitle {
-                image = UIImage(systemName: "checkmark")
-            } else {
-                if item == "Custom Base" && !pickerList.contains(firstInput.currentTitle!) {
+        for input in [firstInput, secondInput] {
+            let input = input!
+            let menu = UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children:
+                pickerList.map({ item in
+                var image: UIImage?
+                if item == input.currentTitle! {
                     image = UIImage(systemName: "checkmark")
-                }
-            }
-            return UIAction(title: item, image: image) { _ in
-                let previousType = self.firstInput.currentTitle!
-                if item == "Custom Base" {
-                    var item = item
-                    showCustomBaseAlert { base in
-                        if base != nil {
-                            item = "Base-\(base!)"
-                            self.firstInput.setTitle(item, for: .normal)
-                            self.pickerMenu()
-                            self.didSelectInputOrResultType(first: true, type: item, previousType: previousType)
-                        }
-                    }
                 } else {
-                    self.firstInput.setTitle(item, for: .normal)
-                    self.pickerMenu()
-                    self.didSelectInputOrResultType(first: true, type: item, previousType: previousType)
-                }
-                }
-            })
-        )
-        firstInput.menu = menu
-        menu = UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children:
-            pickerList.map({ item in
-            var image: UIImage?
-            if item == secondInput.currentTitle {
-                image = UIImage(systemName: "checkmark")
-            } else {
-                if item == "Custom Base" && !pickerList.contains(secondInput.currentTitle!) {
-                    image = UIImage(systemName: "checkmark")
-                }
-            }
-            return UIAction(title: item, image: image) { _ in
-                let previousType = self.secondInput.currentTitle!
-                if item == "Custom Base" {
-                    var item = item
-                    showCustomBaseAlert { base in
-                        if base != nil {
-                            item = "Base-\(base!)"
-                            self.secondInput.setTitle(item, for: .normal)
-                            self.pickerMenu()
-                            self.didSelectInputOrResultType(first: false, type: item, previousType: previousType)
-                        }
+                    if item == "Custom Base" && !pickerList.contains(input.currentTitle!) {
+                        image = UIImage(systemName: "checkmark")
                     }
-                } else {
-                    self.secondInput.setTitle(item, for: .normal)
-                    self.pickerMenu()
-                    self.didSelectInputOrResultType(first: false, type: item, previousType: previousType)
                 }
-                }
-            })
-        )
-        secondInput.menu = menu
+                return UIAction(title: item, image: image) { _ in
+                    let previousType = input.currentTitle!
+                    if item == "Custom Base" {
+                        var item = item
+                        showCustomBaseAlert { base in
+                            if base != nil {
+                                item = "Base-\(base!)"
+                                input.setTitle(item, for: .normal)
+                                self.pickerMenu()
+                                self.didSelectInputOrResultType(first: input == self.firstInput, type: item, previousType: previousType)
+                            }
+                        }
+                    } else {
+                        input.setTitle(item, for: .normal)
+                        self.pickerMenu()
+                        self.didSelectInputOrResultType(first: input == self.firstInput, type: item, previousType: previousType)
+                    }
+                    }
+                })
+            )
+            input.menu = menu
+        }
         saveMenuConfig()
     }
     func textViewDidBeginEditing(_ textView: UITextView) {
