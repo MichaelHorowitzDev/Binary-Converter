@@ -64,6 +64,8 @@ class HexadecimalKeyboard: UIView {
         button.accessibilityTraits = [.keyboardKey]
         button.accessibilityLabel = "Delete"
         button.addTarget(self, action: #selector(didTapDeleteButton(_:)), for: .touchDown)
+        let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap(sender:)))
+        button.addGestureRecognizer(longGesture)
         return button
     }
     var spaceButton: UIButton {
@@ -137,46 +139,30 @@ private extension HexadecimalKeyboard {
     }
     
     func addButtons() {
-        let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap(sender:)))
-        deleteButton.addGestureRecognizer(longGesture)
         let stackView = createStackView(axis: .vertical)
         stackView.frame = bounds
         stackView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addSubview(stackView)
         
-//        for row in 0 ..< 3 {
-//            let subStackView = createStackView(axis: .horizontal)
-//            stackView.addArrangedSubview(subStackView)
-//
-//            for column in 0 ..< 3 {
-//                subStackView.addArrangedSubview(numericButtons[row * 3 + column + 1])
-//            }
-//        }
-        for _ in 0...0{
+        do {
             let subStackView = createStackView(axis: .horizontal)
             stackView.addArrangedSubview(subStackView)
-            for column in 0 ... 9{
-                subStackView.addArrangedSubview(numericButtons[column])
+            for button in numericButtons {
+                subStackView.addArrangedSubview(button)
             }
         }
-        for _ in 0...0{
+        do {
             let subStackView = createStackView(axis: .horizontal)
             stackView.addArrangedSubview(subStackView)
-            for column in 0 ... 5{
-                subStackView.addArrangedSubview(letterButtons[column])
+            for button in letterButtons {
+                subStackView.addArrangedSubview(button)
             }
             subStackView.addArrangedSubview(deleteButton)
         }
         let subStackView = createStackView(axis: .horizontal)
         stackView.addArrangedSubview(subStackView)
-        
-        let blank = UIView()
-        blank.layer.borderWidth = 0.5
-        blank.layer.borderColor = UIColor.darkGray.cgColor
-        
+                
         subStackView.addArrangedSubview(spaceButton)
-        //subStackView.addArrangedSubview(numericButtons[3])
-        //subStackView.addArrangedSubview(deleteButton)
     }
     
     func createStackView(axis: NSLayoutConstraint.Axis) -> UIStackView {

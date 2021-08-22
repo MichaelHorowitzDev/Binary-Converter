@@ -65,6 +65,8 @@ class BinaryKeyboard: UIView {
         button.accessibilityTraits = [.keyboardKey]
         button.accessibilityLabel = "Delete"
         button.addTarget(self, action: #selector(didTapDeleteButton(_:)), for: .touchDown)
+        let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap(sender:)))
+        button.addGestureRecognizer(longGesture)
         return button
     }
     func drawView() {
