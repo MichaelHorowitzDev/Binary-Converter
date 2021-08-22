@@ -7,8 +7,7 @@
 //
 
 import Foundation
-import BigInt
-
+import BigNumber
 func stringTypeToInt(type: String) -> Int? {
     switch type {
     case "Text":
@@ -65,6 +64,7 @@ func converter(input: String, inputType: String, resultType: String) -> String {
         return string
     } else {
         let currentBase = input.split(separator: " ").map { String($0) }
+        print("current base", currentBase)
         var newBase = [String]()
         for base in currentBase {
             let result = changeBase(num: base, currentBase: inputTypeInt, newBase: resultTypeInt)
@@ -74,13 +74,15 @@ func converter(input: String, inputType: String, resultType: String) -> String {
                 newBase.append(result!)
             }
         }
+        print(newBase)
         return newBase.joined(separator: " ")
     }
 }
 
 func changeBase(num: String, currentBase: Int, newBase: Int) -> String? {
-    guard let base10Number = BigInt.init(num, radix: currentBase) else { return nil }
-    let newNum = String.init(base10Number, radix: newBase)
+    print(num, currentBase, newBase)
+    guard let base10Number = BInt(num, radix: currentBase) else { return nil }
+    let newNum = base10Number.asString(radix: newBase)
     return newNum
 }
 
@@ -91,7 +93,7 @@ func stringToNumber(string: String) -> String {
         if let data = String(item).data(using: String.Encoding.utf8) {
             for byte in data {
                 let binaryNumber = String.init(byte, radix: 2)
-                decimalArray.append("\(BigInt.init(binaryNumber, radix: 2)!)")
+                decimalArray.append("\(BInt(binaryNumber, radix: 2)!)")
             }
         }
     }
@@ -132,7 +134,7 @@ func customToBinary(custom: String, base: Int) -> String {
     var binaryArray: [String] = []
     var str = ""
     for hex in customArray {
-        if let binary = BigInt(hex, radix: base) {
+        if let binary = BInt(hex, radix: base) {
             binaryArray.append(String(binary, radix: 2))
         }
         else {
@@ -146,7 +148,7 @@ func customToBinary(custom: String, base: Int) -> String {
 
 func binToCustom(_ bin: String, base: Int) -> String? {
     // binary to integer:
-    guard let num = BigInt(bin, radix: 2) else { return nil }
+    guard let num = BInt(bin, radix: 2) else { return nil }
     // integer to hex:
     let custom = String(num, radix: base) // (or false)
     return custom
