@@ -320,6 +320,7 @@ class ViewController: UIViewController, UITextViewDelegate {
         if UIPasteboard.general.string != nil && UIPasteboard.general.string != "" {
             textInput.text = UIPasteboard.general.string
             textInput.textColor = .label
+            performCalculation()
         }
     }
     
