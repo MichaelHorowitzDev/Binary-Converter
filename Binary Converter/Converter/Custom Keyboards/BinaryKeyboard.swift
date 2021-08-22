@@ -9,70 +9,75 @@
 import UIKit
 
 fileprivate let buttonBackgroundColor = UIColor.tertiarySystemBackground
-fileprivate let buttonBorderColor = UIColor.defaultBackground.cgColor
+fileprivate let buttonBorderColor = UIColor.keyboardBorderColor
 fileprivate let buttonLabelColor = UIColor.label
 
 class BinaryKeyboard: UIView {
     weak var target: UIKeyInput?
     var deleteTimer = Timer()
-    var firstButton: UIButton = {
+    var firstButton: UIButton {
         let button = UIButton(type: .system)
         button.setTitle("0", for: .normal)
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title1)
         button.setTitleColor(buttonLabelColor, for: .normal)
         button.layer.borderWidth = 0.3
-        button.layer.borderColor = buttonBorderColor
+        button.layer.borderColor = buttonBorderColor.cgColor
         button.backgroundColor = buttonBackgroundColor
         button.accessibilityTraits = [.keyboardKey]
         button.accessibilityLabel = "0"
         button.addTarget(self, action: #selector(didTapOneButton(_:)), for: .touchUpInside)
         return button
-    }()
-    var secondButton: UIButton = {
+    }
+    var secondButton: UIButton {
         let button = UIButton(type: .system)
         button.setTitle("1", for: .normal)
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title1)
         button.setTitleColor(buttonLabelColor, for: .normal)
         button.layer.borderWidth = 0.3
-        button.layer.borderColor = buttonBorderColor
+        button.layer.borderColor = buttonBorderColor.cgColor
         button.backgroundColor = buttonBackgroundColor
         button.accessibilityTraits = [.keyboardKey]
         button.accessibilityLabel = "1"
         button.addTarget(self, action: #selector(didTapTwoButton(_:)), for: .touchUpInside)
         return button
-    }()
-    var spaceButton: UIButton = {
+    }
+    var spaceButton: UIButton {
         let button = UIButton(type: .system)
         button.setTitle("space", for: .normal)
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title1)
         button.setTitleColor(buttonLabelColor, for: .normal)
         button.layer.borderWidth = 0.3
-        button.layer.borderColor = buttonBorderColor
+        button.layer.borderColor = buttonBorderColor.cgColor
         button.backgroundColor = buttonBackgroundColor
         button.accessibilityTraits = [.keyboardKey]
         button.accessibilityLabel = ""
         button.addTarget(self, action: #selector(didTapSpaceBar(_:)), for: .touchUpInside)
         return button
-    }()
-    var deleteButton: UIButton = {
+    }
+    var deleteButton: UIButton {
         let button = UIButton(type: .system)
         button.setTitle("⌫", for: .normal)
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title1)
         button.setTitleColor(buttonLabelColor, for: .normal)
         button.layer.borderWidth = 0.3
-        button.layer.borderColor = buttonBorderColor
+        button.layer.borderColor = buttonBorderColor.cgColor
         button.backgroundColor = buttonBackgroundColor
         button.accessibilityTraits = [.keyboardKey]
         button.accessibilityLabel = "Delete"
         button.addTarget(self, action: #selector(didTapDeleteButton(_:)), for: .touchDown)
-        
         return button
-    }()
+    }
+    func drawView() {
+        self.subviews.forEach { subview in
+            subview.removeFromSuperview()
+        }
+        configure()
+    }
     
     init(target: UIKeyInput) {
         self.target = target
         super.init(frame: .zero)
-        configure()
+        drawView()
     }
     
     required init?(coder: NSCoder) {
@@ -130,11 +135,7 @@ private extension BinaryKeyboard {
         
         let subStackView = createStackView(axis: .horizontal)
         stackView.addArrangedSubview(subStackView)
-        
-        let blank = UIView()
-        blank.layer.borderWidth = 0.5
-        blank.layer.borderColor = buttonBorderColor
-        
+                
         let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap(sender:)))
         deleteButton.addGestureRecognizer(longGesture)
         subStackView.addArrangedSubview(firstButton)
@@ -149,5 +150,11 @@ private extension BinaryKeyboard {
         stackView.alignment = .fill
         stackView.distribution = .fillEqually
         return stackView
+    }
+}
+
+extension BinaryKeyboard {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        drawView()
     }
 }
