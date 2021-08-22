@@ -68,6 +68,7 @@
 		8B82FCD7269CC74E00529843 /* Update Custom Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B82FCD6269CC74E00529843 /* Update Custom Base.swift */; };
 		8B82FCD9269CD5AA00529843 /* CustomBaseAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B82FCD8269CD5AA00529843 /* CustomBaseAlert.swift */; };
 		8B82FCDD269D3AF100529843 /* UINavigationItem+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B82FCDC269D3AF100529843 /* UINavigationItem+Extension.swift */; };
+		8B86949626D2490B00B22663 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B86949526D2490B00B22663 /* Int+Extensions.swift */; };
 		8BC97DA9269611B9006DCB1D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC97DA8269611B9006DCB1D /* ViewController.swift */; };
 		C3F9A3C8E43D743FE7222F4A /* Pods_Binary_Converter_Binary_ConverterUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFBFCEA9E4D4B6E45BD1E85 /* Pods_Binary_Converter_Binary_ConverterUITests.framework */; };
 /* End PBXBuildFile section */
@@ -178,6 +179,7 @@
 		8B82FCD6269CC74E00529843 /* Update Custom Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Update Custom Base.swift"; sourceTree = "<group>"; };
 		8B82FCD8269CD5AA00529843 /* CustomBaseAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBaseAlert.swift; sourceTree = "<group>"; };
 		8B82FCDC269D3AF100529843 /* UINavigationItem+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationItem+Extension.swift"; sourceTree = "<group>"; };
+		8B86949526D2490B00B22663 /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
 		8BB50FE2269E350B003871EE /* Armchair.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Armchair.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BC97DA8269611B9006DCB1D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		8BE2B9C0260FC15800DA4610 /* XcodeKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XcodeKit.framework; path = Library/Frameworks/XcodeKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -390,6 +392,7 @@
 				8B66A17B2699641B00AB1B7E /* UIColor+Extension.swift */,
 				8B82FCD3269CA88400529843 /* UIImage+Extension.swift */,
 				8B82FCDC269D3AF100529843 /* UINavigationItem+Extension.swift */,
+				8B86949526D2490B00B22663 /* Int+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -780,6 +783,7 @@
 				3F8FCA9C240C450A008C28AE /* BinaryKeyboard.swift in Sources */,
 				3FF6094B24F9ACE8000967BC /* CustomBaseKeyboard1.swift in Sources */,
 				8B66A171269786E400AB1B7E /* PerformCalculation.swift in Sources */,
+				8B86949626D2490B00B22663 /* Int+Extensions.swift in Sources */,
 				8B82FCDD269D3AF100529843 /* UINavigationItem+Extension.swift in Sources */,
 				3FF6095324FB7C2C000967BC /* AccentColorController.swift in Sources */,
 				8B82FCD4269CA88400529843 /* UIImage+Extension.swift in Sources */,

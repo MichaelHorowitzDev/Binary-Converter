@@ -31,7 +31,7 @@ func showCustomBaseAlert(_ alertType: CustomBaseAlert = .normal, closure: @escap
     ).setDismissBlock {
         if (txt.text ?? "") != "" {
             if let base = Int(txt.text!) {
-                if base > 1 && base < 36 {
+                if base >= 2 && base <= 36 {
                     closure(base)
                     return
                 }
