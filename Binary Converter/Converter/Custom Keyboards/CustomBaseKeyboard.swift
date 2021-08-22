@@ -71,6 +71,8 @@ class CustomBaseKeyboard: UIView {
         button.accessibilityTraits = [.keyboardKey]
         button.accessibilityLabel = "Delete"
         button.addTarget(self, action: #selector(didTapDeleteButton(_:)), for: .touchDown)
+        let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap(sender:)))
+        button.addGestureRecognizer(longGesture)
         return button
     }
     var spaceButton: UIButton {
@@ -158,8 +160,6 @@ private extension CustomBaseKeyboard {
     }
     
     func addButtons(base: Int) {
-        let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap(sender:)))
-        deleteButton.addGestureRecognizer(longGesture)
         let stackView = createStackView(axis: .vertical)
         stackView.frame = bounds
         stackView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
