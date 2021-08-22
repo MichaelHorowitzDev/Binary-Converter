@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19158" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19141"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -61,7 +63,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IkI-ny-ntv">
-                                <rect key="frame" x="366.33333333333331" y="10.000000000000002" width="27.666666666666686" height="26.666666666666671"/>
+                                <rect key="frame" x="364.33333333333331" y="10.000000000000002" width="29.666666666666686" height="28.666666666666671"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <state key="normal" image="gear" catalog="system">
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large" weight="bold"/>
@@ -103,6 +105,21 @@
                                     <action selector="pasteButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="q1p-tQ-BqS"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vLA-wX-FvS">
+                                <rect key="frame" x="170" y="190" width="84" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Nqh-k3-J9V"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <imageReference key="image" image="arrow.left.arrow.right" catalog="system" symbolScale="default"/>
+                                </state>
+                                <connections>
+                                    <action selector="swapButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gxj-IS-WVo"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="Background"/>
@@ -118,7 +135,9 @@
                             <constraint firstItem="0Sk-Uw-dA1" firstAttribute="top" secondItem="dBu-rU-5a6" secondAttribute="bottom" constant="100" id="SVn-q7-TiX"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="0Sk-Uw-dA1" secondAttribute="trailing" constant="30" id="SXc-Rw-hWb"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="u85-5m-p5z" secondAttribute="bottom" constant="50" id="SpZ-Js-kD6"/>
+                            <constraint firstItem="vLA-wX-FvS" firstAttribute="top" secondItem="dBu-rU-5a6" secondAttribute="bottom" constant="100" id="TwJ-l1-hCt"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="IkI-ny-ntv" secondAttribute="trailing" constant="20" id="XDh-xR-UlX"/>
+                            <constraint firstItem="0Sk-Uw-dA1" firstAttribute="leading" secondItem="vLA-wX-FvS" secondAttribute="trailing" id="Y3U-C8-hPl"/>
                             <constraint firstItem="dBu-rU-5a6" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="YRI-Rm-I2X"/>
                             <constraint firstItem="IkI-ny-ntv" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="e0N-w3-KaE"/>
                             <constraint firstItem="P5e-pp-Pos" firstAttribute="top" secondItem="0Sk-Uw-dA1" secondAttribute="bottom" constant="30" id="eCS-ht-1g9"/>
@@ -128,6 +147,7 @@
                             <constraint firstItem="YMF-Ip-Sxk" firstAttribute="top" secondItem="Lud-MM-EXa" secondAttribute="bottom" constant="20" id="uvs-BC-6IF"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="YMF-Ip-Sxk" secondAttribute="bottom" constant="50" id="vE3-SH-Bbv"/>
                             <constraint firstItem="Lud-MM-EXa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="vXM-Em-OT7"/>
+                            <constraint firstItem="vLA-wX-FvS" firstAttribute="leading" secondItem="bVD-rk-bd1" secondAttribute="trailing" id="zjk-bd-gWu"/>
                         </constraints>
                     </view>
                     <connections>
@@ -144,6 +164,7 @@
                         <outlet property="secondInput" destination="0Sk-Uw-dA1" id="QYc-NI-Xqh"/>
                         <outlet property="secondInputTrailing" destination="SXc-Rw-hWb" id="dlF-VG-4Ho"/>
                         <outlet property="settingsButton" destination="IkI-ny-ntv" id="3iL-dB-d81"/>
+                        <outlet property="swapButton" destination="vLA-wX-FvS" id="1bn-Dw-JwW"/>
                         <outlet property="textInput" destination="Lud-MM-EXa" id="fLs-yK-Grd"/>
                         <outlet property="textInputLeading" destination="vXM-Em-OT7" id="QVR-0j-J0K"/>
                         <outlet property="textInputWidth" destination="BZ7-Aa-sAm" id="VfO-oj-JU1"/>
@@ -152,7 +173,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="12417" y="6"/>
+            <point key="canvasLocation" x="12415.942028985508" y="5.7065217391304355"/>
         </scene>
         <!--Settings-->
         <scene sceneID="Rua-2F-giS">
@@ -204,6 +225,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="arrow.left.arrow.right" catalog="system" width="119" height="128"/>
         <image name="gear" catalog="system" width="128" height="119"/>
         <namedColor name="Background">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

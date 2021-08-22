@@ -82,6 +82,7 @@ class ViewController: UIViewController, UITextViewDelegate {
     @IBOutlet var copyButton: UIButton!
     @IBOutlet weak var pasteButton: UIButton!
     @IBOutlet weak var settingsButton: UIButton!
+    @IBOutlet weak var swapButton: UIButton!
     @IBOutlet var textInputWidth: NSLayoutConstraint!
     @IBOutlet var resultTextWidth: NSLayoutConstraint!
     @IBOutlet var firstInputLeading: NSLayoutConstraint!
@@ -98,6 +99,7 @@ class ViewController: UIViewController, UITextViewDelegate {
         copyButton.backgroundColor = accentColor
         pasteButton.backgroundColor = accentColor
         settingsButton.imageView?.tintColor = accentColor
+        swapButton.imageView?.tintColor = accentColor
         label.textColor = accentColor
         textInput.layer.borderColor = accentColor.cgColor
         resultTextView.layer.borderColor = accentColor.cgColor
@@ -143,6 +145,9 @@ class ViewController: UIViewController, UITextViewDelegate {
         secondInput.clipsToBounds = true
         textInput.layer.borderWidth = 1
         resultTextView.layer.borderWidth = 1
+        let symbolConfiguration = UIImage.SymbolConfiguration(weight: .heavy)
+        let swapSymbol = UIImage(systemName: "arrow.left.arrow.right", withConfiguration: symbolConfiguration)
+        swapButton.setImage(swapSymbol, for: .normal)
 
         setCustomBase()
         setColors()
@@ -318,6 +323,9 @@ class ViewController: UIViewController, UITextViewDelegate {
             textInput.textColor = .label
             performCalculation()
         }
+    }
+    @IBAction func swapButtonPressed(_ sender: UIButton) {
+        print("swap")
     }
     
     //performCalculation
