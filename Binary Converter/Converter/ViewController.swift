@@ -350,12 +350,11 @@ class ViewController: UIViewController, UITextViewDelegate {
         }
     }
     
-    var referenceNumberPerformCalculation = RefInt(Int.random(in: 0...Int.max))
     var performCalculationArray = [(input: String, inputType: String, resultType: String)]()
     
     func runTimer() {
-        performCalculationTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { [self] timer in
-            print(performCalculationArray.count)
+        var nsuuid = NSUUID()
+        performCalculationTimer = Timer.scheduledTimer(withTimeInterval: 0.001, repeats: true, block: { [self] timer in
             if performCalculationArray.count == 0 {
                 return
             }
@@ -364,17 +363,20 @@ class ViewController: UIViewController, UITextViewDelegate {
             }
             let item = performCalculationArray[0]
             performCalculationArray.removeAll()
-            DispatchQueue.global(qos: .userInteractive).async {
-                let result = converter(input: item.input, inputType: item.inputType, resultType: item.resultType)
-                DispatchQueue.main.async {
-                    self.resultTextView.text = result
+            nsuuid = NSUUID()
+            let uuid = UUID(uuidString: nsuuid.uuidString)!
+            DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: .now()+0.03) {
+                if nsuuid.uuidString == uuid.uuidString {
+                    let result = converter(input: item.input, inputType: item.inputType, resultType: item.resultType)
+                    DispatchQueue.main.async {
+                        self.resultTextView.text = result
+                    }
                 }
             }
         })
     }
     //performCalculation
     func performCalculation() {
-        let start = CFAbsoluteTimeGetCurrent()
         if textInput.textColor == .lightGray {
             return
         }
@@ -382,8 +384,6 @@ class ViewController: UIViewController, UITextViewDelegate {
         let inputType = firstInput.currentTitle!
         let resultType = secondInput.currentTitle!
         performCalculationArray.append((input, inputType, resultType))
-        let end = CFAbsoluteTimeGetCurrent()
-        print(end-start, "seconds")
     }
 }
 final class RefInt {
