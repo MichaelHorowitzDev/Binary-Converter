@@ -143,6 +143,8 @@ class ViewController: UIViewController, UITextViewDelegate {
         secondInput.clipsToBounds = true
         textInput.layer.borderWidth = 1
         resultTextView.layer.borderWidth = 1
+        textInput.layer.cornerRadius = 6
+        resultTextView.layer.cornerRadius = 6
         let symbolConfiguration = UIImage.SymbolConfiguration(weight: .heavy)
         let swapSymbol = UIImage(systemName: "arrow.left.arrow.right", withConfiguration: symbolConfiguration)
         swapButton.setImage(swapSymbol, for: .normal)
