@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import IQKeyboardManagerSwift
 import PopupDialog
 import Armchair
 import SCLAlertView
@@ -148,9 +147,40 @@ class ViewController: UIViewController, UITextViewDelegate {
         let swapSymbol = UIImage(systemName: "arrow.left.arrow.right", withConfiguration: symbolConfiguration)
         swapButton.setImage(swapSymbol, for: .normal)
 
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        addToolbar()
         setCustomBase()
         setColors()
         setBackground()
+    }
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if let cursorPosition = textInput.selectedTextRange?.start {
+                let caretPosition: CGRect = textInput.caretRect(for: cursorPosition)
+                let textInputY = textInput.frame.origin.y+CGFloat.minimum(textInput.frame.height, caretPosition.origin.y)+40
+                let keyboardY = self.view.frame.maxY-keyboardSize.height
+                let keyboardShift = textInputY-keyboardY
+                if textInput.isFirstResponder {
+                    if self.view.frame.origin.y == 0 && keyboardShift > 0 {
+                        self.view.frame.origin.y -= keyboardShift
+                    }
+                }
+            }
+        }
+    }
+    @objc func keyboardWillHide(notification: NSNotification) {
+        self.view.frame.origin.y = 0
+    }
+    @objc func addToolbar() {
+        let toolbar = UIToolbar()
+        toolbar.items = [UIBarButtonItem.flexibleSpace(), UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(hideKeyboard))]
+        toolbar.sizeToFit()
+        textInput.inputAccessoryView = toolbar
+    }
+    @objc func hideKeyboard() {
+        textInput.resignFirstResponder()
     }
     @objc func setCustomBase() {
         pickerList = ["Text", "Binary", "Hexadecimal", "Integer"]
@@ -243,6 +273,10 @@ class ViewController: UIViewController, UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         performCalculation()
         scrollTextViewToBottom(textView: resultTextView)
+        UIView.performWithoutAnimation {
+            textInput.resignFirstResponder()
+            textInput.becomeFirstResponder()
+        }
     }
     func scrollTextViewToBottom(textView: UITextView) {
         if textView.text.count > 0 {

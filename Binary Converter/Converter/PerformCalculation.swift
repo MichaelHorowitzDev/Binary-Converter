@@ -64,7 +64,6 @@ func converter(input: String, inputType: String, resultType: String) -> String {
         return string
     } else {
         let currentBase = input.split(separator: " ").map { String($0) }
-        print("current base", currentBase)
         var newBase = [String]()
         for base in currentBase {
             let result = changeBase(num: base, currentBase: inputTypeInt, newBase: resultTypeInt)
@@ -74,13 +73,11 @@ func converter(input: String, inputType: String, resultType: String) -> String {
                 newBase.append(result!)
             }
         }
-        print(newBase)
         return newBase.joined(separator: " ")
     }
 }
 
 func changeBase(num: String, currentBase: Int, newBase: Int) -> String? {
-    print(num, currentBase, newBase)
     guard let base10Number = BInt(num, radix: currentBase) else { return nil }
     let newNum = base10Number.asString(radix: newBase)
     return newNum
@@ -105,7 +102,6 @@ func binaryToString(binary: String) -> String {
     var str = ""
     let binaryArray: [String] = binary.split(separator: " ").map {String($0)}
     var numberArray: [Int] = []
-    print(binaryArray)
     for byte in binaryArray {
         if byte.count > 8 {
             break

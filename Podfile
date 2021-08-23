@@ -6,7 +6,6 @@ target 'Binary Converter' do
   use_frameworks!
 
   # Pods for TextToBinaryFree
-pod 'IQKeyboardManagerSwift'
 pod 'PopupDialog'
 pod 'Armchair'
 pod 'SCLAlertView'
