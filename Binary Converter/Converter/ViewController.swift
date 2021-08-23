@@ -83,6 +83,7 @@ class ViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var resultTextViewTrailing: NSLayoutConstraint!
     var pickerList = ["Text", "Binary", "Hexadecimal", "Integer"]
     var customBase = 2
+    var performCalculationTimer = Timer()
     @objc func setColors() {
         firstInput.backgroundColor = accentColor
         secondInput.backgroundColor = accentColor
@@ -156,6 +157,7 @@ class ViewController: UIViewController, UITextViewDelegate {
         setCustomBase()
         setColors()
         setBackground()
+        runTimer()
     }
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
@@ -273,12 +275,15 @@ class ViewController: UIViewController, UITextViewDelegate {
         }
     }
     func textViewDidChange(_ textView: UITextView) {
+        let start = CFAbsoluteTimeGetCurrent()
         performCalculation()
         scrollTextViewToBottom(textView: resultTextView)
         UIView.performWithoutAnimation {
             textInput.resignFirstResponder()
             textInput.becomeFirstResponder()
         }
+        let end = CFAbsoluteTimeGetCurrent()
+        print("time difference", end-start)
     }
     func scrollTextViewToBottom(textView: UITextView) {
         if textView.text.count > 0 {
@@ -339,13 +344,45 @@ class ViewController: UIViewController, UITextViewDelegate {
         }
     }
     
+    var referenceNumberPerformCalculation = RefInt(Int.random(in: 0...Int.max))
+    var performCalculationArray = [(input: String, inputType: String, resultType: String)]()
+    
+    func runTimer() {
+        performCalculationTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { [self] timer in
+            print(performCalculationArray.count)
+            if performCalculationArray.count == 0 {
+                return
+            }
+            if performCalculationArray.count > 1 {
+                performCalculationArray = [performCalculationArray.last!]
+            }
+            let item = performCalculationArray[0]
+            performCalculationArray.removeAll()
+            DispatchQueue.global(qos: .userInteractive).async {
+                let result = converter(input: item.input, inputType: item.inputType, resultType: item.resultType)
+                DispatchQueue.main.async {
+                    self.resultTextView.text = result
+                }
+            }
+        })
+    }
     //performCalculation
     func performCalculation() {
+        let start = CFAbsoluteTimeGetCurrent()
         if textInput.textColor == .lightGray {
             return
         }
-        resultTextView.text = converter(input: textInput.text, inputType: firstInput.currentTitle!, resultType: secondInput.currentTitle!)
+        let input = textInput.text!
+        let inputType = firstInput.currentTitle!
+        let resultType = secondInput.currentTitle!
+        performCalculationArray.append((input, inputType, resultType))
+        let end = CFAbsoluteTimeGetCurrent()
+        print(end-start, "seconds")
     }
+}
+final class RefInt {
+   var val: Int
+   init(_ value: Int) { val = value }
 }
 
 extension ViewController {
