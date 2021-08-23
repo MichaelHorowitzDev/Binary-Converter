@@ -50,7 +50,7 @@ func converter(input: String, inputType: String, resultType: String) -> String {
         return baseArray.joined(separator: " ")
     } else if resultTypeInt == 0 {
         var binaryArray = [String]()
-        let numberArray = input.split(separator: " ")
+        let numberArray = input.lowercased().split(separator: " ")
         for num in numberArray {
             let binary = changeBase(num: String(num), currentBase: inputTypeInt, newBase: 2)
             if binary == nil {
@@ -63,7 +63,7 @@ func converter(input: String, inputType: String, resultType: String) -> String {
         let string = binaryToString(binary: binary)
         return string
     } else {
-        let currentBase = input.split(separator: " ").map { String($0) }
+        let currentBase = input.lowercased().split(separator: " ").map { String($0) }
         var newBase = [String]()
         for base in currentBase {
             let result = changeBase(num: base, currentBase: inputTypeInt, newBase: resultTypeInt)
