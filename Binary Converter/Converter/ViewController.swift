@@ -159,22 +159,29 @@ class ViewController: UIViewController, UITextViewDelegate {
         setBackground()
         runTimer()
     }
+    var keyboardSize: CGRect = CGRect.init()
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            if let cursorPosition = textInput.selectedTextRange?.start {
-                let caretPosition: CGRect = textInput.caretRect(for: cursorPosition)
-                let textInputY = textInput.frame.origin.y+CGFloat.minimum(textInput.frame.height, caretPosition.origin.y)+40
-                let keyboardY = self.view.frame.maxY-keyboardSize.height
-                let keyboardShift = textInputY-keyboardY
-                if textInput.isFirstResponder {
-                    if self.view.frame.origin.y == 0 && keyboardShift > 0 {
-                        self.view.frame.origin.y -= keyboardShift
-                    }
+            self.keyboardSize = keyboardSize
+            updateViewFrame()
+        }
+    }
+    func updateViewFrame() {
+        if let cursorPosition = textInput.selectedTextRange?.start {
+            let caretPosition: CGRect = textInput.caretRect(for: cursorPosition)
+            let textInputY = textInput.frame.origin.y+CGFloat.minimum(textInput.frame.height, caretPosition.origin.y)+40
+            let keyboardY = self.view.frame.maxY-keyboardSize.height
+            let keyboardShift = textInputY-keyboardY
+            if textInput.isFirstResponder {
+                if keyboardShift > 0 {
+                    let x = self.view.frame.origin.y
+                    self.view.frame.origin.y = x-(2*x)-keyboardShift
                 }
             }
         }
     }
     @objc func keyboardWillHide(notification: NSNotification) {
+        keyboardSize = CGRect.init()
         self.view.frame.origin.y = 0
     }
     @objc func addToolbar() {
@@ -278,9 +285,8 @@ class ViewController: UIViewController, UITextViewDelegate {
         let start = CFAbsoluteTimeGetCurrent()
         performCalculation()
         scrollTextViewToBottom(textView: resultTextView)
-        UIView.performWithoutAnimation {
-            textInput.resignFirstResponder()
-            textInput.becomeFirstResponder()
+        UIView.animate(withDuration: 0.1) {
+            self.updateViewFrame()
         }
         let end = CFAbsoluteTimeGetCurrent()
         print("time difference", end-start)
