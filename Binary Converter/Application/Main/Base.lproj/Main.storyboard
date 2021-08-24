@@ -120,6 +120,14 @@
                                     <action selector="swapButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gxj-IS-WVo"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qfj-c7-DLk">
+                                <rect key="frame" x="169" y="250" width="76" height="248.33333333333337"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="arrow.clockwise.circle.fill" catalog="system"/>
+                                <connections>
+                                    <action selector="calculateButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ERu-91-iYM"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="Background"/>
@@ -129,8 +137,10 @@
                             <constraint firstItem="P5e-pp-Pos" firstAttribute="height" secondItem="Lud-MM-EXa" secondAttribute="height" id="DIu-hn-6xK"/>
                             <constraint firstItem="u85-5m-p5z" firstAttribute="top" secondItem="P5e-pp-Pos" secondAttribute="bottom" constant="20" id="DVg-Tp-r8k"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="u85-5m-p5z" secondAttribute="trailing" constant="55" id="EoT-Kt-R66"/>
+                            <constraint firstItem="Qfj-c7-DLk" firstAttribute="top" secondItem="P5e-pp-Pos" secondAttribute="top" id="G0L-Bb-zyk"/>
                             <constraint firstItem="Lud-MM-EXa" firstAttribute="top" secondItem="bVD-rk-bd1" secondAttribute="bottom" constant="30" id="Gc2-Me-hBP"/>
                             <constraint firstItem="bVD-rk-bd1" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="H5u-Be-YDI"/>
+                            <constraint firstItem="P5e-pp-Pos" firstAttribute="leading" secondItem="Qfj-c7-DLk" secondAttribute="trailing" id="KBj-sY-PIE"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="P5e-pp-Pos" secondAttribute="trailing" constant="20" id="OM3-N5-LmX"/>
                             <constraint firstItem="0Sk-Uw-dA1" firstAttribute="top" secondItem="dBu-rU-5a6" secondAttribute="bottom" constant="100" id="SVn-q7-TiX"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="0Sk-Uw-dA1" secondAttribute="trailing" constant="30" id="SXc-Rw-hWb"/>
@@ -143,7 +153,9 @@
                             <constraint firstItem="P5e-pp-Pos" firstAttribute="top" secondItem="0Sk-Uw-dA1" secondAttribute="bottom" constant="30" id="eCS-ht-1g9"/>
                             <constraint firstItem="YMF-Ip-Sxk" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="55" id="gYL-jT-H4h"/>
                             <constraint firstItem="dBu-rU-5a6" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="gd6-dy-8r9"/>
+                            <constraint firstItem="Qfj-c7-DLk" firstAttribute="bottom" secondItem="P5e-pp-Pos" secondAttribute="bottom" id="jgP-eo-Vt7"/>
                             <constraint firstItem="P5e-pp-Pos" firstAttribute="leading" secondItem="Lud-MM-EXa" secondAttribute="trailing" constant="76" id="q3k-KR-7es"/>
+                            <constraint firstItem="Qfj-c7-DLk" firstAttribute="leading" secondItem="Lud-MM-EXa" secondAttribute="trailing" id="q4l-PI-27C"/>
                             <constraint firstItem="YMF-Ip-Sxk" firstAttribute="top" secondItem="Lud-MM-EXa" secondAttribute="bottom" constant="20" id="uvs-BC-6IF"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="YMF-Ip-Sxk" secondAttribute="bottom" constant="50" id="vE3-SH-Bbv"/>
                             <constraint firstItem="Lud-MM-EXa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="vXM-Em-OT7"/>
@@ -151,6 +163,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="calculateButton" destination="Qfj-c7-DLk" id="BEd-Hf-GwR"/>
                         <outlet property="copyButton" destination="u85-5m-p5z" id="BEH-Vn-nKD"/>
                         <outlet property="copyButtonTrailing" destination="EoT-Kt-R66" id="GBN-qc-g3i"/>
                         <outlet property="firstInput" destination="bVD-rk-bd1" id="cxz-XA-rtg"/>
@@ -173,7 +186,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="12415.942028985508" y="5.7065217391304355"/>
+            <point key="canvasLocation" x="12230" y="-51"/>
         </scene>
         <!--Settings-->
         <scene sceneID="Rua-2F-giS">
@@ -225,6 +238,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="arrow.clockwise.circle.fill" catalog="system" width="128" height="121"/>
         <image name="arrow.left.arrow.right" catalog="system" width="119" height="128"/>
         <image name="gear" catalog="system" width="128" height="119"/>
         <namedColor name="Background">

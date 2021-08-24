@@ -73,6 +73,7 @@ class ViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var pasteButton: UIButton!
     @IBOutlet weak var settingsButton: UIButton!
     @IBOutlet weak var swapButton: UIButton!
+    @IBOutlet weak var calculateButton: UIButton!
     @IBOutlet var textInputWidth: NSLayoutConstraint!
     @IBOutlet var resultTextWidth: NSLayoutConstraint!
     @IBOutlet var firstInputLeading: NSLayoutConstraint!
@@ -91,6 +92,7 @@ class ViewController: UIViewController, UITextViewDelegate {
         pasteButton.backgroundColor = accentColor
         settingsButton.imageView?.tintColor = accentColor
         swapButton.imageView?.tintColor = accentColor
+        calculateButton.imageView?.tintColor = accentColor
         label.textColor = accentColor
         textInput.layer.borderColor = accentColor.cgColor
         resultTextView.layer.borderColor = accentColor.cgColor
@@ -146,9 +148,20 @@ class ViewController: UIViewController, UITextViewDelegate {
         resultTextView.layer.borderWidth = 1
         textInput.layer.cornerRadius = 6
         resultTextView.layer.cornerRadius = 6
-        let symbolConfiguration = UIImage.SymbolConfiguration(weight: .heavy)
-        let swapSymbol = UIImage(systemName: "arrow.left.arrow.right", withConfiguration: symbolConfiguration)
+        
+        let swapSymbol: UIImage = {
+            let symbolConfiguration = UIImage.SymbolConfiguration(weight: .heavy)
+            let swapSymbol = UIImage(systemName: "arrow.left.arrow.right", withConfiguration: symbolConfiguration)!
+            return swapSymbol
+        }()
         swapButton.setImage(swapSymbol, for: .normal)
+        let calculateSymbol: UIImage = {
+            let symbolConfiguration = UIImage.SymbolConfiguration(pointSize: 30, weight: .medium)
+            let calculateSymbol = UIImage(systemName: "arrow.clockwise.circle.fill", withConfiguration: symbolConfiguration)!
+            return calculateSymbol
+        }()
+        calculateButton.isHidden = true
+        calculateButton.setImage(calculateSymbol, for: .normal)
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -175,7 +188,13 @@ class ViewController: UIViewController, UITextViewDelegate {
             if textInput.isFirstResponder {
                 if keyboardShift > 0 {
                     let x = self.view.frame.origin.y
-                    self.view.frame.origin.y = x-(2*x)-keyboardShift
+                    let frameYShift = x-(2*x)
+                    if frameYShift-keyboardShift < 0 {
+                        self.view.frame.origin.y = frameYShift-keyboardShift
+                    } else {
+                        self.view.frame.origin.y = 0
+                    }
+//                    self.view.frame.origin.y = x-(2*x)-keyboardShift
                 }
             }
         }
@@ -282,14 +301,40 @@ class ViewController: UIViewController, UITextViewDelegate {
         }
     }
     func textViewDidChange(_ textView: UITextView) {
-        let start = CFAbsoluteTimeGetCurrent()
-        performCalculation()
         scrollTextViewToBottom(textView: resultTextView)
         UIView.animate(withDuration: 0.1) {
             self.updateViewFrame()
         }
-        let end = CFAbsoluteTimeGetCurrent()
-        print("time difference", end-start)
+        performCalculation()
+        if let int = stringTypeToInt(type: firstInput.currentTitle!) {
+            let maximumBytes = 700.0
+            let maximumCharacters = Int(maximumBytes / log2(Double(int)))
+            if textView.text.count > maximumCharacters {
+                calculateButton.isHidden = false
+                performCalculationTimer.invalidate()
+                if !UserDefaults.standard.bool(forKey: "hasShowCalculateButtonAlert") {
+                    textView.resignFirstResponder()
+                    let alert = SCLAlertView()
+                    let subtitle = "Calculating very large numbers can put a lot of strain on the CPU. When the number gets too big, there will be a calculate button that has to be pressed to show the result."
+                    alert.showTitle(
+                        "Calculate Button",
+                        subTitle: subtitle,
+                        timeout: nil,
+                        completeText: "Got It",
+                        style: .notice,
+                        colorStyle: accentColor.asUInt,
+                        colorTextButton: accentColor.isLight ? 0xFFFFFF : 0x000000
+                    ).setDismissBlock {
+                        UserDefaults.standard.set(true, forKey: "hasShowCalculateButtonAlert")
+                    }
+                }
+                return
+            }
+        }
+        calculateButton.isHidden = true
+        if !performCalculationTimer.isValid {
+            runTimer()
+        }
     }
     func scrollTextViewToBottom(textView: UITextView) {
         if textView.text.count > 0 {
@@ -374,6 +419,25 @@ class ViewController: UIViewController, UITextViewDelegate {
                 }
             }
         })
+    }
+    var canCalculate = true
+    @IBAction func calculateButtonPressed(_ sender: UIButton) {
+        print(canCalculate)
+        if canCalculate {
+            if performCalculationArray.count == 0 {
+                return
+            }
+            if performCalculationArray.count > 1 {
+                performCalculationArray = [performCalculationArray.last!]
+            }
+            let item = performCalculationArray[0]
+            DispatchQueue.global(qos: .userInteractive).async {
+                let result = converter(input: item.input, inputType: item.inputType, resultType: item.resultType)
+                DispatchQueue.main.async {
+                    self.resultTextView.text = result
+                }
+            }
+        }
     }
     //performCalculation
     func performCalculation() {
