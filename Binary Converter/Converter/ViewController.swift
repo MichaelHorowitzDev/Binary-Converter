@@ -144,8 +144,8 @@ class ViewController: UIViewController, UITextViewDelegate {
         pasteButton.layer.cornerRadius = 5
         firstInput.clipsToBounds = true
         secondInput.clipsToBounds = true
-        textInput.layer.borderWidth = 1
-        resultTextView.layer.borderWidth = 1
+        textInput.layer.borderWidth = 2
+        resultTextView.layer.borderWidth = 2
         textInput.layer.cornerRadius = 6
         resultTextView.layer.cornerRadius = 6
         
