@@ -293,7 +293,6 @@ class ViewController: UIViewController, UITextViewDelegate {
         let title = "COPIED"
         let message = "Text was copied to clipboard"
         let popup = PopupDialog(title: title, message: message, completion: {
-            print("done")
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 Armchair.showPromptIfNecessary()
             }
@@ -356,7 +355,6 @@ class ViewController: UIViewController, UITextViewDelegate {
     }
     var canCalculate = false
     @IBAction func calculateButtonPressed(_ sender: UIButton) {
-        print(canCalculate)
         if canCalculate {
             if performCalculationArray.count == 0 {
                 return
