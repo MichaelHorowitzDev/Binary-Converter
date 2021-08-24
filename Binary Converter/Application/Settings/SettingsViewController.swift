@@ -49,8 +49,6 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        print("cells")
-        print(indexPath.section)
         if indexPath.section == 0 {
             cell.textLabel?.text = items[indexPath.row]
         } else if indexPath.section == 1 {
@@ -76,6 +74,8 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
             case "Share":
                 let items: [Any] = ["Check out this app!", URL(string: "https://itunes.apple.com/app/id1501111820")!]
                 let activity = UIActivityViewController(activityItems: items, applicationActivities: nil)
+                activity.popoverPresentationController?.sourceView = self.view
+                activity.popoverPresentationController?.sourceRect = self.view.bounds
                 present(activity, animated: true, completion: nil)
             case "Support":
                 if MFMailComposeViewController.canSendMail() {
