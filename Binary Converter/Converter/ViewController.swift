@@ -163,45 +163,11 @@ class ViewController: UIViewController, UITextViewDelegate {
         calculateButton.alpha = 0
         calculateButton.setImage(calculateSymbol, for: .normal)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
         addToolbar()
         setCustomBase()
         setColors()
         setBackground()
         runTimer()
-    }
-    var keyboardSize: CGRect = CGRect.init()
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            self.keyboardSize = keyboardSize
-            updateViewFrame()
-        }
-    }
-    func updateViewFrame() {
-        if let cursorPosition = textInput.selectedTextRange?.start {
-            let caretPosition: CGRect = textInput.caretRect(for: cursorPosition)
-            let textInputY = textInput.frame.origin.y+CGFloat.minimum(textInput.frame.height, caretPosition.origin.y)+40
-            let keyboardY = self.view.frame.maxY-keyboardSize.height
-            let keyboardShift = textInputY-keyboardY
-            if textInput.isFirstResponder {
-                if keyboardShift > 0 {
-                    let x = self.view.frame.origin.y
-                    let frameYShift = x-(2*x)
-                    if frameYShift-keyboardShift < 0 {
-                        self.view.frame.origin.y = frameYShift-keyboardShift
-                    } else {
-                        self.view.frame.origin.y = 0
-                    }
-//                    self.view.frame.origin.y = x-(2*x)-keyboardShift
-                }
-            }
-        }
-    }
-    @objc func keyboardWillHide(notification: NSNotification) {
-        keyboardSize = CGRect.init()
-        self.view.frame.origin.y = 0
     }
     @objc func addToolbar() {
         let toolbar = UIToolbar()
@@ -302,9 +268,6 @@ class ViewController: UIViewController, UITextViewDelegate {
     }
     func textViewDidChange(_ textView: UITextView) {
         scrollTextViewToBottom(textView: resultTextView)
-        UIView.animate(withDuration: 0.1) {
-            self.updateViewFrame()
-        }
         performCalculation()
     }
     func scrollTextViewToBottom(textView: UITextView) {
