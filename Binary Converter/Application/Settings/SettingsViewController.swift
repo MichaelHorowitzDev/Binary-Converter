@@ -72,7 +72,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
                 guard let url = URL(string: urlStr), UIApplication.shared.canOpenURL(url) else { return }
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
             case "Share":
-                let items: [Any] = ["Check out this app!", URL(string: "https://itunes.apple.com/app/id1501111820")!]
+                let items: [Any] = ["Check out the Binary Converter Calculator!", URL(string: "https://itunes.apple.com/app/id1501111820")!]
                 let activity = UIActivityViewController(activityItems: items, applicationActivities: nil)
                 activity.popoverPresentationController?.sourceView = self.view
                 activity.popoverPresentationController?.sourceRect = self.view.bounds
