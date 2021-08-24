@@ -160,7 +160,7 @@ class ViewController: UIViewController, UITextViewDelegate {
             let calculateSymbol = UIImage(systemName: "arrow.clockwise.circle.fill", withConfiguration: symbolConfiguration)!
             return calculateSymbol
         }()
-        calculateButton.isHidden = true
+        calculateButton.alpha = 0
         calculateButton.setImage(calculateSymbol, for: .normal)
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -306,35 +306,6 @@ class ViewController: UIViewController, UITextViewDelegate {
             self.updateViewFrame()
         }
         performCalculation()
-        if let int = stringTypeToInt(type: firstInput.currentTitle!) {
-            let maximumBytes = 700.0
-            let maximumCharacters = Int(maximumBytes / log2(Double(int)))
-            if textView.text.count > maximumCharacters {
-                calculateButton.isHidden = false
-                performCalculationTimer.invalidate()
-                if !UserDefaults.standard.bool(forKey: "hasShowCalculateButtonAlert") {
-                    textView.resignFirstResponder()
-                    let alert = SCLAlertView()
-                    let subtitle = "Calculating very large numbers can put a lot of strain on the CPU. When the number gets too big, there will be a calculate button that has to be pressed to show the result."
-                    alert.showTitle(
-                        "Calculate Button",
-                        subTitle: subtitle,
-                        timeout: nil,
-                        completeText: "Got It",
-                        style: .notice,
-                        colorStyle: accentColor.asUInt,
-                        colorTextButton: accentColor.isLight ? 0xFFFFFF : 0x000000
-                    ).setDismissBlock {
-                        UserDefaults.standard.set(true, forKey: "hasShowCalculateButtonAlert")
-                    }
-                }
-                return
-            }
-        }
-        calculateButton.isHidden = true
-        if !performCalculationTimer.isValid {
-            runTimer()
-        }
     }
     func scrollTextViewToBottom(textView: UITextView) {
         if textView.text.count > 0 {
@@ -420,7 +391,7 @@ class ViewController: UIViewController, UITextViewDelegate {
             }
         })
     }
-    var canCalculate = true
+    var canCalculate = false
     @IBAction func calculateButtonPressed(_ sender: UIButton) {
         print(canCalculate)
         if canCalculate {
@@ -443,6 +414,48 @@ class ViewController: UIViewController, UITextViewDelegate {
     func performCalculation() {
         if textInput.textColor == .lightGray {
             return
+        }
+        if let int = stringTypeToInt(type: firstInput.currentTitle!) {
+            if int != 0 {
+                let maximumBytes = 700.0
+                let maximumCharacters = Int(maximumBytes / log2(Double(int)))
+                if textInput.text.count > maximumCharacters {
+                    UIView.animate(withDuration: 0.2) {
+                        self.calculateButton.alpha = 1
+                    }
+                    canCalculate = true
+                    performCalculationTimer.invalidate()
+                    if !UserDefaults.standard.bool(forKey: "hasShowCalculateButtonAlert") {
+                        textInput.resignFirstResponder()
+                        let alert = SCLAlertView()
+                        let subtitle = "Calculating very large numbers can put a lot of strain on the CPU. When the number gets too big, there will be a calculate button that has to be pressed to show the result."
+                        alert.showTitle(
+                            "Calculate Button",
+                            subTitle: subtitle,
+                            timeout: nil,
+                            completeText: "Got It",
+                            style: .notice,
+                            colorStyle: accentColor.asUInt,
+                            colorTextButton: accentColor.isLight ? 0xFFFFFF : 0x000000
+                        ).setDismissBlock {
+                            UserDefaults.standard.set(true, forKey: "hasShowCalculateButtonAlert")
+                        }
+                    }
+                    let input = textInput.text!
+                    let inputType = firstInput.currentTitle!
+                    let resultType = secondInput.currentTitle!
+                    performCalculationArray.append((input, inputType, resultType))
+                    return
+                }
+            }
+        }
+        UIView.animate(withDuration: 0.2) {
+            self.calculateButton.alpha = 0
+        }
+        canCalculate = false
+        
+        if !performCalculationTimer.isValid {
+            runTimer()
         }
         let input = textInput.text!
         let inputType = firstInput.currentTitle!
