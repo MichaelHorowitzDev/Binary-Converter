@@ -98,6 +98,8 @@ class ViewController: UIViewController, UITextViewDelegate {
         resultTextView.layer.borderColor = accentColor.cgColor
         firstInput.setTitleColor(firstInput.backgroundColor!.isLight ? .white : .black, for: .normal)
         secondInput.setTitleColor(secondInput.backgroundColor!.isLight ? .white : .black, for: .normal)
+        firstInput.layoutIfNeeded()
+        secondInput.layoutIfNeeded()
         UIView.performWithoutAnimation {
             copyButton.setTitleColor(copyButton.backgroundColor!.isLight ? .white : .black, for: .normal)
             copyButton.layoutIfNeeded()
@@ -391,7 +393,7 @@ class ViewController: UIViewController, UITextViewDelegate {
                         let alert = SCLAlertView()
                         let subtitle = "Calculating very large numbers can put a lot of strain on the CPU. When the number gets too big, there will be a calculate button that has to be pressed to show the result."
                         alert.showTitle(
-                            "Calculate Button",
+                            "Notice",
                             subTitle: subtitle,
                             timeout: nil,
                             completeText: "Got It",
